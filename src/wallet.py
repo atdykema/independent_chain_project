@@ -26,11 +26,15 @@ class Wallet:
                 tools.tools.list_chars_to_other_list(current_word_digits, total_word_digits)
                 #clear list
                 current_word_digits.clear()
-        check_sum = tools.tools.list_to_string(current_word_digits)
+        three_digits_checksum = tools.tools.list_to_string(current_word_digits)
         #get sha256 of 256 word digits
         str_total_word_digits = tools.tools.list_to_string(total_word_digits)
         sha256_string = hashlib.sha256(bytes(str_total_word_digits, encoding='utf-8'))
         sha256_hex = sha256_string.hexdigest()
+        checksum = tools.tools.hex_to_binary(sha256_hex[0:2]) + three_digits_checksum
+        decimal_checksum = tools.tools.binary_to_decimal(checksum)
+        mnemonic_words.append(word_list[decimal_checksum][0:-1])
         print(sha256_hex)
+        print(checksum)
+        print(three_digits_checksum)
         print(mnemonic_words)
-        print(check_sum)
