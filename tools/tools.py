@@ -52,3 +52,41 @@ def hex_to_binary(hex_input):
         if n == 'f':
             binary += '1111'
     return binary
+
+
+def binary_to_hex(bin_input):
+    hexadecimal = ""
+    for n in bin_input:
+        if n == '0000':
+            hexadecimal += '0'
+        if n == '0001':
+            hexadecimal += '1'
+        if n == '0010':
+            hexadecimal += '2'
+        if n == '0011':
+            hexadecimal += '3'
+        if n == '0100':
+            hexadecimal += '4'
+        if n == '0101':
+            hexadecimal += '5'
+        if n == '0110':
+            hexadecimal += '6'
+        if n == '0111':
+            hexadecimal += '7'
+        if n == '1000':
+            hexadecimal += '8'
+        if n == '1001':
+            hexadecimal += '9'
+        if n == '1010':
+            hexadecimal += 'a'
+        if n == '1011':
+            hexadecimal += 'b'
+        if n == '1100':
+            hexadecimal += 'c'
+        if n == '1101':
+            hexadecimal += 'd'
+        if n == '1110':
+            hexadecimal += 'e'
+        if n == '1111':
+            hexadecimal += 'f'
+    return hexadecimal

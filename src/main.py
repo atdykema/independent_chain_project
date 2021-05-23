@@ -13,8 +13,17 @@ def main():
     genesis_block = Block(123, 123, "genesis block")
     print(f"{genesis_block.get_prev_hash()}" + " " + f"{genesis_block.get_transactions()}")
 
-    #create wallet
-    wallet = Wallet()
+    wallet = Wallet("default")
+    # while True:
+    #     command = input()
+    #     #create wallet
+    #     if command == "touch wallet" or "touch w":
+    #         label_input = input("Label (leave blank for default)")
+    #         if label_input == '':
+    #             label = "default"
+    #         else:
+    #             label = label_input
+    #         wallet = Wallet(label)
 
 
 
