@@ -1,4 +1,4 @@
-import time, random, tools.tools, os, hashlib
+import time, random, tools.tools, os, hashlib, binascii
 from pbkdf2 import PBKDF2
 
 
@@ -40,19 +40,22 @@ def mnemonic_phrase_generation():
 
 
 def master_key_generation(mnemonic_phrase, additional_master_key_password):
-    password = mnemonic_phrase
-    salt = "mnemonic" + additional_master_key_password
-    iterations = 50000
-
-    # key = PBKDF2(password, salt, iterations, digestmodule=hashlib.sha256).read(64)
-    # k = tools.tools.binary_to_hex(key)
-    # print(k)
+    mnemonic_password = mnemonic_phrase
+    mnemonic_salt = "mnemonic" + additional_master_key_password
+    iterations = 1000
+    mnemonic_key = '0x' + str(binascii.hexlify
+                     (PBKDF2(mnemonic_password, mnemonic_salt, iterations, digestmodule=hashlib.sha256).read(64)))[2:-1]
+    print(mnemonic_key)
+    master_key = '0x' + str(binascii.hexlify
+                     (PBKDF2(mnemonic_key, 'Bitcoin seed', iterations, digestmodule=hashlib.sha256).read(64)))[2:-1]
+    print(master_key)
 
 
 class Wallet:
     def __init__(self, label):
         self.label = label
         self.mnemonic_phrase = mnemonic_phrase_generation()
+        #TODO:
         additional_master_key_password = "bruh"#input("Additional master key password (optional) ")
         self.master_key = master_key_generation(self.mnemonic_phrase, additional_master_key_password)
 

@@ -90,3 +90,5 @@ def binary_to_hex(bin_input):
         if n == '1111':
             hexadecimal += 'f'
     return hexadecimal
+
+
