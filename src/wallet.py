@@ -50,6 +50,11 @@ def master_key_generation(mnemonic_phrase, additional_master_key_password):
     return master_key
 
 
+#TODO:
+#def generate_public_addresses(amount_of_keys, master_key):
+    #get masterkey, get private key and chain code, etc
+    #add keys to self.public_addresses
+
 class Wallet:
     def __init__(self, label):
         self.label = label
@@ -63,7 +68,8 @@ class Wallet:
         #AKA extended private key ^
         self.private_key = self.master_key[2:66]
         print(self.private_key)
-
+        #self.public_addresses = [].append(generate_public_addresses(1, self.master_key))
+        #print(self.public_addresses)
 
     def get_label(self):
         return self.label
@@ -76,4 +82,7 @@ class Wallet:
 
     def get_private_key(self):
         return self.private_key
+
+    #def get_public_addresses(self):
+        #return self.get_public_addresses()
 
