@@ -68,6 +68,12 @@ class Wallet:
     def get_label(self):
         return self.label
 
-
-    def get_mnemonic_words(self):
+    def get_mnemonic_phrase(self):
         return self.mnemonic_phrase
+
+    def get_master_key(self):
+        return self.master_key
+
+    def get_private_key(self):
+        return self.private_key
+
