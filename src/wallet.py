@@ -45,19 +45,24 @@ def master_key_generation(mnemonic_phrase, additional_master_key_password):
     iterations = 1000
     mnemonic_key = '0x' + str(binascii.hexlify
                      (PBKDF2(mnemonic_password, mnemonic_salt, iterations, digestmodule=hashlib.sha256).read(64)))[2:-1]
-    print(mnemonic_key)
     master_key = '0x' + str(binascii.hexlify
                      (PBKDF2(mnemonic_key, 'Bitcoin seed', iterations, digestmodule=hashlib.sha256).read(64)))[2:-1]
-    print(master_key)
+    return master_key
 
 
 class Wallet:
     def __init__(self, label):
         self.label = label
+        print(self.label)
         self.mnemonic_phrase = mnemonic_phrase_generation()
+        print(self.mnemonic_phrase)
         #TODO:
-        additional_master_key_password = "bruh"#input("Additional master key password (optional) ")
+        additional_master_key_password = ""#input("Additional master key password (optional) ")
         self.master_key = master_key_generation(self.mnemonic_phrase, additional_master_key_password)
+        print(self.master_key)
+        #AKA extended private key ^
+        self.private_key = self.master_key[2:66]
+        print(self.private_key)
 
 
     def get_label(self):
