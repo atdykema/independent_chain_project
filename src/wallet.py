@@ -70,6 +70,7 @@ class Wallet:
         print(self.private_key)
         #self.public_addresses = [].append(generate_public_addresses(1, self.master_key))
         #print(self.public_addresses)
+        self.utxos = []
 
     def get_label(self):
         return self.label
@@ -85,4 +86,7 @@ class Wallet:
 
     #def get_public_addresses(self):
         #return self.get_public_addresses()
+
+    def get_utxos(self):
+        return self.utxos
 

@@ -1,12 +1,13 @@
-from coinbase import *
-from block import *
-from wallet import *
-from command_line import *
+import coinbase as cb
+import block as b
+import wallet as w
+import command_line as cl
 
+wallets = []
 
 def main():
     #start command line
-    status = start_command_line()
+    status = cl.start_command_line()
 
 
 

@@ -26,13 +26,17 @@ def get_hash_merkle_root(transactions):
         hash_ = get_hash_merkle_root(temp)
         return hash_
 
+
 class Block:
-    def __init__(self, prev_hash, transactions, nonce):
+    def __init__(self, prev_hash, nonce):
         self.prev_hash = prev_hash
         self.merkle_hash = get_hash_merkle_root()
         self.timestamp = time.time()
         self.nonce = nonce
-        self.transactions = transactions
+        self.txs = []
+
+    def add_tx(self, tx):
+        self.txs.append(tx)
 
     def get_prev_hash(self):
         return self.prev_hash
