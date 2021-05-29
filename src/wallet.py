@@ -1,6 +1,7 @@
 import time, random, tools.tools, os, hashlib, binascii
 from pbkdf2 import PBKDF2
-
+import tx as tx
+import main as m
 
 def mnemonic_phrase_generation():
     mnemonic_words = []
@@ -55,6 +56,20 @@ def master_key_generation(mnemonic_phrase, additional_master_key_password):
     #get masterkey, get private key and chain code, etc
     #add keys to self.public_addresses
 
+
+def find_wallet(identifier):
+    for wallet in m.wallets:
+        if wallet.label == identifier or wallet.private_key == identifier:
+            return wallet
+    return 1
+
+
+def calc_unspent(utxos):
+    total = 0
+    for utxo in utxos:
+        total += utxo.tx.unit_exchanged
+
+
 class Wallet:
     def __init__(self, label):
         self.label = label
@@ -71,6 +86,9 @@ class Wallet:
         #self.public_addresses = [].append(generate_public_addresses(1, self.master_key))
         #print(self.public_addresses)
         self.utxos = []
+        self.total_unspent = 0
+
+
 
     def get_label(self):
         return self.label

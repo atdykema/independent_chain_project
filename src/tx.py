@@ -1,15 +1,10 @@
 import main as m
 
 
-def find_wallet(identifier):
-    for wallet in m.wallets:
-        if wallet.label == identifier or wallet.private_key == identifier:
-            return wallet
-
-
 def check_sending_utxo(wallet):
     if not wallet.get_utxos():
         return False
+
 
 
 class Tx:
