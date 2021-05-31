@@ -11,12 +11,12 @@ def start_command_line():
         if c in ("touch wallet", "touch w"):
             label_input = input("Label (leave blank for default)")
             if label_input == '':
-                label = "default"
+                label = "default" + str(len(m.wallets))
             else:
                 label = label_input
             m.wallets.append(w.Wallet(label))
             print(m.wallets)
-        if c in ("describe wallet"):
+        if c in "describe wallet":
             describe_wallet = input("input wallet to describe...")
             wallet = w.find_wallet(describe_wallet)
             if wallet == 1:
@@ -26,8 +26,9 @@ def start_command_line():
             print(wallet.get_private_key())
             print(wallet.get_mnemonic_phrase())
             print(wallet.get_utxos())
-
-
+        if c in ("get wallets", "g wallets"):
+            for wallet in m.wallets:
+                print(wallet.get_label())
         if c in "touch tx":
             sending_wallet = input("Send from wallet... \n")
             sending_wallet_obj = w.find_wallet(sending_wallet)
