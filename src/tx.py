@@ -1,4 +1,4 @@
-import main as m
+import src.main as m
 
 
 def check_sending_utxo(wallet):

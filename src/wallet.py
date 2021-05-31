@@ -1,13 +1,13 @@
 import time, random, tools.tools, os, hashlib, binascii
 from pbkdf2 import PBKDF2
-import tx as tx
-import main as m
+import src.tx as tx
+import src.main as m
 
 def mnemonic_phrase_generation():
     mnemonic_words = []
     total_word_digits = []
     current_word_digits = []
-    f = open("BIP39_wordlist.txt", "r")
+    f = open('C:/Users/Andrew/PycharmProjects/independant_chain_project/src/' + 'BIP39_wordlist.txt', "r")
     word_list = f.readlines()
     f.close()
     for n in range(0, 256):

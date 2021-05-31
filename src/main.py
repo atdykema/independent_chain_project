@@ -1,9 +1,10 @@
-import coinbase as cb
-import block as b
-import wallet as w
-import command_line as cl
+import src.coinbase as cb
+import src.block as b
+import src.wallet as w
+import src.command_line as cl
 
 wallets = []
+
 
 def main():
     #start command line
