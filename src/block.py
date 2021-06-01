@@ -35,24 +35,3 @@ class Block:
         self.nonce = nonce
         self.txs = []
 
-    def add_tx(self, tx):
-        self.txs.append(tx)
-
-    def get_txs(self):
-        self.txs
-
-    def get_prev_hash(self):
-        return self.prev_hash
-
-    def get_merkle_hash(self):
-        return self.merkle_hash
-
-    def get_timestamp(self):
-        return self.timestamp
-
-    def get_nonce(self):
-        return self.nonce
-
-    #def get_transactions(self):
-        #return self.transactions
-

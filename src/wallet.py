@@ -84,23 +84,3 @@ class Wallet:
         self.utxos = []
         self.total_unspent = 0
 
-
-
-    def get_label(self):
-        return self.label
-
-    def get_mnemonic_phrase(self):
-        return self.mnemonic_phrase
-
-    def get_master_key(self):
-        return self.master_key
-
-    def get_private_key(self):
-        return self.private_key
-
-    #def get_public_addresses(self):
-        #return self.get_public_addresses()
-
-    def get_utxos(self):
-        return self.utxos
-

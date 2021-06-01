@@ -23,15 +23,15 @@ def describe_wallet():
     if wallet == 1:
         print("invalid wallet")
         return 0
-    print(wallet.get_label())
-    print(wallet.get_private_key())
-    print(wallet.get_mnemonic_phrase())
-    print(wallet.get_utxos())
+    print(wallet.label())
+    print(wallet.private_key())
+    print(wallet.mnemonic_phrase())
+    print(wallet.utxos())
 
 
 def get_wallets():
     for wallet in m.wallets:
-        print(wallet.get_label())
+        print(wallet.label())
 
 
 def touch_tx():

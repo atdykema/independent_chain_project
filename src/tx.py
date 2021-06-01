@@ -2,9 +2,9 @@ import src.main as m
 
 
 def check_sending_utxo(wallet):
-    if not wallet.get_utxos():
+    if not wallet.utxos():
         return False
-
+    if wallet.total_unspent
 
 
 class Tx:
