@@ -17,9 +17,8 @@ def touch_wallet():
     m.wallets.append(w.Wallet(label))
 
 
-def describe_wallet():
-    wallet_to_describe = input("input wallet to describe... ")
-    wallet = w.find_wallet(wallet_to_describe)
+def describe_wallet(identifier):
+    wallet = w.find_wallet(identifier)
     if wallet == 1:
         print("invalid wallet\n")
         return 0
@@ -52,15 +51,23 @@ def touch_tx():
 
 def start_command_line():
     while True:
-        c = input()
-        # create wallet
-        if c in ("touch wallet", "touch w"):
-            touch_wallet()
-        elif c == "describe wallet":
-            describe_wallet()
-        elif c in ("get wallets", "get w"):
-            get_wallets()
-        elif c == "touch tx":
-            touch_tx()
-        elif c in ("exit", "quit", "q"):
+        c = input().split()
+        if c[0] == "touch":
+            if c[1] in ("wallet", "w"):
+                touch_wallet()
+            elif c[1] in ("tx", "t"):
+                touch_tx()
+
+        elif c[0] == "describe":
+            if c[1] in ("wallet", "w"):
+                if len(c) == 3:
+                    describe_wallet(c[2])
+                else:
+                    print("missing wallet identifier\n")
+
+        elif c[0] == "get":
+            if c[1] in ("wallet", "w"):
+                get_wallets()
+
+        elif c[0] in ("exit", "quit", "q"):
             break
