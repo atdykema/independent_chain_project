@@ -16,10 +16,12 @@ def main():
     print(f"{genesis_block.get_prev_hash()}" + " " + f"{genesis_block.get_txs()}")
 
     # create series of wallets
-    m.wallets.append(cl.touch_wallet())
-    m.wallets.append(cl.touch_wallet())
-    m.wallets.append(cl.touch_wallet())
-    m.wallets.append(cl.touch_wallet())
+    # m.wallets.append(cl.touch_wallet())
+    # m.wallets.append(cl.touch_wallet())
+    # m.wallets.append(cl.touch_wallet())
+    # m.wallets.append(cl.touch_wallet())
+
+    cl.start_command_line()
 
 
 

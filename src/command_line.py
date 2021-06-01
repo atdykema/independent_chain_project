@@ -10,8 +10,11 @@ def touch_wallet():
         label = "default" + str(len(m.wallets))
     else:
         label = label_input
+    for wallet in m.wallets:
+        if label in wallet.label:
+            print("identical wallet label error")
+            return 0
     m.wallets.append(w.Wallet(label))
-    print(m.wallets)
 
 
 def describe_wallet():
@@ -56,9 +59,9 @@ def start_command_line():
             touch_wallet()
         elif c in "describe wallet":
             describe_wallet()
-        elif c in ("get wallets", "g wallets"):
+        elif c in ("get wallets", "get w"):
             get_wallets()
         elif c in "touch tx":
             touch_tx()
         elif c in ("exit", "quit", "q"):
-            return 1
+            break

@@ -73,16 +73,12 @@ def calc_unspent(utxos):
 class Wallet:
     def __init__(self, label):
         self.label = label
-        print(self.label)
         self.mnemonic_phrase = mnemonic_phrase_generation()
-        print(self.mnemonic_phrase)
         #TODO:
         additional_master_key_password = ""#input("Additional master key password (optional) ")
         self.master_key = master_key_generation(self.mnemonic_phrase, additional_master_key_password)
-        print(self.master_key)
         #AKA extended private key ^
         self.private_key = self.master_key[2:66]
-        print(self.private_key)
         #self.public_addresses = [].append(generate_public_addresses(1, self.master_key))
         #print(self.public_addresses)
         self.utxos = []
