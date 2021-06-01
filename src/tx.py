@@ -1,14 +1,12 @@
 import src.main as m
 
 
-def check_sending_utxo(wallet):
-    if not wallet.utxos():
-        return False
-    if wallet.total_unspent
-
 
 class Tx:
-    def __init__(self, sending_addr, receiving_addr, unit_exchanged):
-        self.sending_wallet = sending_addr
-        self.receiving_addr = receiving_addr
+    def __init__(self, gas_limit, sending_address, receiving_address, unit_exchanged):
+        #self.nonce = function that searches blockchain for number of transactions per address
+        self.gas_limit = gas_limit
+        self.sending_address = sending_address
+        self.receiving_address = receiving_address
         self.unit_exchanged = unit_exchanged
+        #v,r,s stuff

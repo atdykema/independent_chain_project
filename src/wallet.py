@@ -3,11 +3,12 @@ from pbkdf2 import PBKDF2
 import src.tx as tx
 import src.main as m
 
+
 def mnemonic_phrase_generation():
     mnemonic_words = []
     total_word_digits = []
     current_word_digits = []
-    f = open('C:/Users/Andrew/PycharmProjects/independant_chain_project/src/' + 'BIP39_wordlist.txt', "r")
+    f = open('C:/Users/Andrew/PycharmProjects/independant_chain_project/resources/' + 'BIP39_wordlist.txt', "r")
     word_list = f.readlines()
     f.close()
     for n in range(0, 256):
@@ -64,12 +65,6 @@ def find_wallet(identifier):
     return 1
 
 
-def calc_unspent(utxos):
-    total = 0
-    for utxo in utxos:
-        total += utxo.tx.unit_exchanged
-
-
 class Wallet:
     def __init__(self, label):
         self.label = label
@@ -81,6 +76,5 @@ class Wallet:
         self.private_key = self.master_key[2:66]
         #self.public_addresses = [].append(generate_public_addresses(1, self.master_key))
         #print(self.public_addresses)
-        self.utxos = []
         self.total_unspent = 0
 

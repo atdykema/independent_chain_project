@@ -9,11 +9,11 @@ import src.command_line as cl
 def main():
     # create coinbase
     coinbase = cb.Coinbase()
-    print(f"{coinbase.get_reward_available()}" + " " + f"{coinbase.get_genesis_date()}")
+    print(f"{coinbase.reward_available}" + " " + f"{coinbase.genesis_date}")
 
     # create genesis block
     genesis_block = b.Block(123, 123)
-    print(f"{genesis_block.get_prev_hash()}" + " " + f"{genesis_block.get_txs()}")
+    print(f"{genesis_block.prev_hash}" + " " + f"{genesis_block.txs}")
 
     # create series of wallets
     # m.wallets.append(cl.touch_wallet())
