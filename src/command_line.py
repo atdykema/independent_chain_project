@@ -1,6 +1,7 @@
 import src.wallet as w
 import src.tx as tx
 import src.main as m
+import src.address as a
 import multiprocessing as mp
 
 
@@ -23,13 +24,24 @@ def describe_wallet(identifier):
         print("invalid wallet\n")
         return 0
     print(wallet.label)
-    print(wallet.private_key)
-    print(wallet.mnemonic_phrase)
 
 
 def get_wallets():
     for wallet in m.wallets:
         print(wallet.label)
+
+
+def touch_address():
+    identifier = input("wallet to add to...\n")
+    wallet = w.find_wallet(identifier)
+    if wallet == 1:
+        print("invalid wallet\n")
+        return 0
+    address = a.Address
+    print(address)
+
+    wallet.addresses.append(address)
+    print(a.find_address(address, wallet).private_key)
 
 
 def touch_tx():
@@ -57,6 +69,8 @@ def start_command_line():
                 touch_wallet()
             elif c[1] in ("tx", "t"):
                 touch_tx()
+            elif c[1] in ("address", "a"):
+                touch_address()
 
         elif c[0] == "describe":
             if c[1] in ("wallet", "w"):
