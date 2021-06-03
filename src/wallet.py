@@ -6,7 +6,7 @@ import src.main as m
 
 def find_wallet(identifier):
     for wallet in m.wallets:
-        if wallet.label == identifier or wallet.private_key == identifier:
+        if wallet.label == identifier:
             return wallet
     return 1
 

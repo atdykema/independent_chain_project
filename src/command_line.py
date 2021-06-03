@@ -37,11 +37,11 @@ def touch_address():
     if wallet == 1:
         print("invalid wallet\n")
         return 0
-    address = a.Address
-    print(address)
-
+    address = a.Address()
     wallet.addresses.append(address)
-    print(a.find_address(address, wallet).private_key)
+    print(wallet.label)
+    print(wallet.addresses)
+    print(a.find_address(address.private_key, wallet).private_key)
 
 
 def touch_tx():
@@ -64,6 +64,11 @@ def touch_tx():
 def start_command_line():
     while True:
         c = input().split()
+
+        if len(c) == 1:
+            print("invalid command")
+            continue
+
         if c[0] == "touch":
             if c[1] in ("wallet", "w"):
                 touch_wallet()
