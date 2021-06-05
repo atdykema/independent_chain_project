@@ -18,19 +18,6 @@ def touch_wallet():
     m.wallets.append(w.Wallet(label))
 
 
-def describe_wallet(identifier):
-    wallet = w.find_wallet(identifier)
-    if wallet == 1:
-        print("invalid wallet\n")
-        return 0
-    print(wallet.label)
-
-
-def get_wallets():
-    for wallet in m.wallets:
-        print(wallet.label)
-
-
 def touch_address():
     identifier = input("wallet to add to...\n")
     wallet = w.find_wallet(identifier)
@@ -45,20 +32,38 @@ def touch_address():
 
 
 def touch_tx():
-    sending_wallet = input("Send from wallet... \n")
-    sending_wallet_obj = w.find_wallet(sending_wallet)
-    if sending_wallet_obj == 1:
-        print("invalid sending wallet\n")
+    sending_address = input("Send from address... \n")
+    sending_address_obj = a.find_address(sending_address)
+    if sending_address_obj == 1:
+        print("invalid sending address\n")
         return 0
-    receiving_wallet = input("Receiving wallet... \n")
-    receiving_wallet = w.find_wallet(receiving_wallet)
-    if receiving_wallet == 1:
+
+    receiving_address = input("Receiving address... \n")
+    receiving_address_obj = a.find_address(receiving_address)
+    if receiving_address_obj == 1:
         print("invalid receiving wallet\n")
         return 0
+
     unit_exchanged = input("Amount to send... \n")
-    if unit_exchanged < sending_wallet_obj.total_unspent:
+    if unit_exchanged < sending_address_obj.total_unspent:
         print("invalid exchange amount\n")
         return 0
+
+
+
+
+def describe_wallet(identifier):
+    wallet = w.find_wallet(identifier)
+    if wallet == 1:
+        print("invalid wallet\n")
+        return 0
+    print(wallet.label)
+
+
+def get_wallets():
+    for wallet in m.wallets:
+        print(wallet.label)
+
 
 
 def start_command_line():

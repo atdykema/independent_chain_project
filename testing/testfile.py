@@ -12,7 +12,7 @@ def main():
     print(f"{coinbase.reward_available}" + " " + f"{coinbase.genesis_date}")
 
     # create genesis block
-    genesis_block = b.Block(123, 123)
+    genesis_block = b.Block(0x0000000000000000000000000000000000000000000000000000000000000000)
     print(f"{genesis_block.prev_hash}" + " " + f"{genesis_block.txs}")
 
     # create series of wallets

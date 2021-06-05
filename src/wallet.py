@@ -4,6 +4,7 @@ import src.tx as tx
 import src.main as m
 
 
+
 def find_wallet(identifier):
     for wallet in m.wallets:
         if wallet.label == identifier:
