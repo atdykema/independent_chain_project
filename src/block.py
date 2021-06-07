@@ -38,18 +38,16 @@ def find_block(identifier):
     return block
 
 
-
-
 class Block:
     def __init__(self, prev_block):
         self.timestamp = time.time()
-        self.block_number = find_block(self.prev_hash).block_number + 1
+        self.block_height = find_block(self.prev_hash).block_number + 1
         #self.difficulty =
         self.prev_block = prev_block
         self.prev_hash = prev_block.hash
-        #self.merkle_hash = get_hash_merkle_root()
-        #self.block_hash
-        #self.nonce
+        #self.merkle_hash = None
+        #self.hash =
+        #self.nonce =
         self.txs = []
 
 
