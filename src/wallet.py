@@ -4,7 +4,6 @@ import src.tx as tx
 import src.main as m
 
 
-
 def find_wallet(identifier):
     for wallet in m.wallets:
         if wallet.label == identifier:
@@ -15,5 +14,6 @@ def find_wallet(identifier):
 class Wallet:
     def __init__(self, label):
         self.label = label
+        self.timestamp = time.time()
         self.addresses = []
 
