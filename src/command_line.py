@@ -65,7 +65,7 @@ def get_wallets(wallets):
         print(wallet.label)
 
 
-def start_command_line():
+def start_command_line(wallets, genesis_block, coinbase):
     while True:
         c = input().split()
 
@@ -75,7 +75,7 @@ def start_command_line():
 
         if c[0] == "touch":
             if c[1] in ("wallet", "w"):
-                touch_wallet()
+                touch_wallet(wallets)
             elif c[1] in ("tx", "t"):
                 touch_tx()
             elif c[1] in ("address", "a"):
@@ -90,7 +90,7 @@ def start_command_line():
 
         elif c[0] == "get":
             if c[1] in ("wallet", "w"):
-                get_wallets()
+                get_wallets(wallets)
 
         elif c[0] in ("exit", "quit", "q"):
             break
