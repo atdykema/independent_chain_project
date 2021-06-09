@@ -50,20 +50,20 @@ def touch_tx():
         return 0
 
 
-
-
 def describe_wallet(identifier):
     wallet = w.find_wallet(identifier)
     if wallet == 1:
         print("invalid wallet\n")
         return 0
     print(wallet.label)
+    print(wallet.timestamp)
+    for address in wallet.addresses:
+        print(address)
 
 
 def get_wallets():
     for wallet in m.wallets:
         print(wallet.label)
-
 
 
 def start_command_line():
