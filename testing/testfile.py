@@ -1,9 +1,7 @@
 import src.wallet as w
 import src.coinbase as cb
 import src.block as b
-import src.main as m
 import src.command_line as cl
-
 
 
 def main():

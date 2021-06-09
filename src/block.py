@@ -42,10 +42,11 @@ class Block:
         self.timestamp = time.time()
         # self.difficulty =
         self.prev_block = prev_block
-        self.prev_hash = prev_block.hash
         if prev_block is not None:
             self.block_height = prev_block.block_height + 1
+            self.prev_hash = prev_block.hash
         else:
+            self.prev_hash = 0x0000000000000000000000000000000000000000000000000000000000000000
             self.block_height = 0
         # block merkle_hash, hash, and nonce are all determined after
         # addition of tcs and the confirmation of the block

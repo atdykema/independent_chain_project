@@ -1,4 +1,3 @@
-import src.main as m
 
 
 class Tx:

@@ -1,45 +1,44 @@
-import src.wallet as w
-import src.tx as tx
-import src.main as m
-import src.address as a
+from src.wallet import find_wallet
+from src.wallet import Wallet
+from src.address import Address, find_address
 import multiprocessing as mp
 
 
-def touch_wallet():
+def touch_wallet(wallets):
     label_input = input("Label (leave blank for default): ")
     if label_input == '':
-        label = "default" + str(len(m.wallets))
+        label = "default" + str(len(wallets))
     else:
         label = label_input
-    for wallet in m.wallets:
+    for wallet in wallets:
         if label in wallet.label:
             print("identical wallet label error\n")
             return 0
-    m.wallets.append(w.Wallet(label))
+    wallets.append(Wallet(label))
 
 
 def touch_address():
     identifier = input("wallet to add to...\n")
-    wallet = w.find_wallet(identifier)
+    wallet = find_wallet(identifier)
     if wallet == 1:
         print("invalid wallet\n")
         return 0
-    address = a.Address()
+    address = Address()
     wallet.addresses.append(address)
     print(wallet.label)
     print(wallet.addresses)
-    print(a.find_address(address.private_key, wallet).private_key)
+    print(find_address(address.private_key, wallet).private_key)
 
 
 def touch_tx():
     sending_address = input("Send from address... \n")
-    sending_address_obj = a.find_address(sending_address)
+    sending_address_obj = find_address(sending_address)
     if sending_address_obj == 1:
         print("invalid sending address\n")
         return 0
 
     receiving_address = input("Receiving address... \n")
-    receiving_address_obj = a.find_address(receiving_address)
+    receiving_address_obj = find_address(receiving_address)
     if receiving_address_obj == 1:
         print("invalid receiving wallet\n")
         return 0
@@ -51,7 +50,7 @@ def touch_tx():
 
 
 def describe_wallet(identifier):
-    wallet = w.find_wallet(identifier)
+    wallet = find_wallet(identifier)
     if wallet == 1:
         print("invalid wallet\n")
         return 0
@@ -61,8 +60,8 @@ def describe_wallet(identifier):
         print(address)
 
 
-def get_wallets():
-    for wallet in m.wallets:
+def get_wallets(wallets):
+    for wallet in wallets:
         print(wallet.label)
 
 

@@ -1,7 +1,6 @@
 import time, random, tools.tools, os, hashlib, binascii
 from pbkdf2 import PBKDF2
 import src.tx as tx
-import src.main as m
 
 
 def mnemonic_phrase_generation():
