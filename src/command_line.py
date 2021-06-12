@@ -17,9 +17,9 @@ def touch_wallet(wallets):
     wallets.append(Wallet(label))
 
 
-def touch_address():
+def touch_address(wallets):
     identifier = input("wallet to add to...\n")
-    wallet = find_wallet(identifier)
+    wallet = find_wallet(identifier, wallets)
     if wallet == 1:
         print("invalid wallet\n")
         return 0
@@ -31,6 +31,7 @@ def touch_address():
 
 
 def touch_tx():
+    # TODO: need to find the wallet
     sending_address = input("Send from address... \n")
     sending_address_obj = find_address(sending_address)
     if sending_address_obj == 1:
@@ -49,8 +50,8 @@ def touch_tx():
         return 0
 
 
-def describe_wallet(identifier):
-    wallet = find_wallet(identifier)
+def describe_wallet(identifier, wallets):
+    wallet = find_wallet(identifier, wallets)
     if wallet == 1:
         print("invalid wallet\n")
         return 0
@@ -69,22 +70,29 @@ def start_command_line(wallets, genesis_block, coinbase):
     while True:
         c = input().split()
 
-        if len(c) == 1:
-            print("invalid command")
-            continue
+        if c[0] in ("help", "h"):
+            print("Commands:")
+            print("\ttouch")
+            print("\t\twallet, w")
+            print("\t\ttx, t")
+            print("\t\taddress, a")
+            print("\tget")
+            print("\t\twallet, w")
+            print("\tdescribe")
+            print("\t\twallet, w")
 
-        if c[0] == "touch":
+        elif c[0] == "touch":
             if c[1] in ("wallet", "w"):
                 touch_wallet(wallets)
             elif c[1] in ("tx", "t"):
                 touch_tx()
             elif c[1] in ("address", "a"):
-                touch_address()
+                touch_address(wallets)
 
         elif c[0] == "describe":
             if c[1] in ("wallet", "w"):
                 if len(c) == 3:
-                    describe_wallet(c[2])
+                    describe_wallet(c[2], wallets)
                 else:
                     print("missing wallet identifier\n")
 
@@ -94,3 +102,6 @@ def start_command_line(wallets, genesis_block, coinbase):
 
         elif c[0] in ("exit", "quit", "q"):
             break
+
+        else:
+            print("unknown command")

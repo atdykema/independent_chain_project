@@ -17,10 +17,10 @@ def main():
     coinbase = Coinbase()
 
     # initiate mining
-    mining = mp.Process(target=start_mining)
+    mp.Process(target=start_mining)
 
     # start command line
-    status = start_command_line()
+    start_command_line(wallets, genesis_block, coinbase)
 
 
 if __name__ == "__main__":
