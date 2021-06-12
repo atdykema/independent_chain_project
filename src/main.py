@@ -1,4 +1,3 @@
-# FIX IMPORTS DUE TO CIRCULAR IMPORTS
 from src.coinbase import Coinbase
 from src.block import Block
 from src.command_line import start_command_line

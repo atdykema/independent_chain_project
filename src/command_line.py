@@ -58,7 +58,7 @@ def describe_wallet(identifier, wallets):
     print(wallet.label)
     print(wallet.timestamp)
     for address in wallet.addresses:
-        print(address)
+        print(address.private_key)
 
 
 def get_wallets(wallets):
