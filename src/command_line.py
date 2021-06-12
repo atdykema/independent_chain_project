@@ -66,6 +66,16 @@ def get_wallets(wallets):
         print(wallet.label)
 
 
+def get_addresses(wallets):
+    for wallet in wallets:
+        print(wallet.label)
+        if len(wallet.addresses) == 0:
+            print("\tNo addresses in this wallet")
+            continue
+        for address in wallet.addresses:
+            print("\t" + address.private_key)
+
+
 def start_command_line(wallets, genesis_block, coinbase):
     while True:
         c = input().split()
@@ -77,7 +87,8 @@ def start_command_line(wallets, genesis_block, coinbase):
             print("\t\ttx, t")
             print("\t\taddress, a")
             print("\tget")
-            print("\t\twallet, w")
+            print("\t\twallets, w")
+            print("\t\taddresses, a")
             print("\tdescribe")
             print("\t\twallet, w")
 
@@ -97,8 +108,10 @@ def start_command_line(wallets, genesis_block, coinbase):
                     print("missing wallet identifier\n")
 
         elif c[0] == "get":
-            if c[1] in ("wallet", "w"):
+            if c[1] in ("wallets", "w"):
                 get_wallets(wallets)
+            if c[1] in ("addresses", "a"):
+                get_addresses(wallets)
 
         elif c[0] in ("exit", "quit", "q"):
             break
