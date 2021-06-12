@@ -1,25 +1,34 @@
-import src.wallet as w
-import src.coinbase as cb
-import src.block as b
-import src.command_line as cl
+
+from src.coinbase import Coinbase
+from src.block import Block
+from src.command_line import start_command_line
+from src.command_line import touch_wallet, touch_tx, touch_address, get_wallets, get_addresses
 
 
 def main():
-    # create coinbase
-    coinbase = cb.Coinbase()
-    print(f"{coinbase.reward_available}" + " " + f"{coinbase.genesis_date}")
+    # initialize wallet list
+    wallets = []
 
-    # create genesis block
-    genesis_block = b.Block(0x0000000000000000000000000000000000000000000000000000000000000000)
-    print(f"{genesis_block.prev_hash}" + " " + f"{genesis_block.txs}")
+    # initiate genesis block
+    genesis_block = Block(None)
 
-    # create series of wallets
-    # m.wallets.append(cl.touch_wallet())
-    # m.wallets.append(cl.touch_wallet())
-    # m.wallets.append(cl.touch_wallet())
-    # m.wallets.append(cl.touch_wallet())
+    # initiate coinbase
+    coinbase = Coinbase()
 
-    cl.start_command_line()
+    # start command line
+    touch_wallet(wallets)
+    touch_wallet(wallets)
+    touch_wallet(wallets)
+    touch_address(wallets)
+    touch_address(wallets)
+    print("--Wallets--")
+    get_wallets(wallets)
+    print("--Addresses--")
+    get_addresses(wallets)
+
+
+    start_command_line(wallets, genesis_block, coinbase)
+
 
 
 

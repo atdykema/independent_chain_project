@@ -5,9 +5,11 @@ import multiprocessing as mp
 
 
 def touch_wallet(wallets):
-    label_input = input("Label (leave blank for default): ")
+    # TODO for testing: label_input = input("Label (leave blank for default): ")
+    label_input = ''
     if label_input == '':
-        label = "default" + str(len(wallets))
+        # TODO for testing: label = "default" + str(len(wallets))
+        label = "d" + str(len(wallets))
     else:
         label = label_input
     for wallet in wallets:
@@ -18,7 +20,8 @@ def touch_wallet(wallets):
 
 
 def touch_address(wallets):
-    identifier = input("wallet to add to...\n")
+    # TODO for testing: identifier = input("wallet to add to...\n")
+    identifier = "d0"
     wallet = find_wallet(identifier, wallets)
     if wallet == 1:
         print("invalid wallet\n")
@@ -26,28 +29,43 @@ def touch_address(wallets):
     address = Address()
     wallet.addresses.append(address)
     print(wallet.label)
-    print(wallet.addresses)
     print(find_address(address.private_key, wallet).private_key)
 
 
-def touch_tx():
-    # TODO: need to find the wallet
-    sending_address = input("Send from address... \n")
-    sending_address_obj = find_address(sending_address)
-    if sending_address_obj == 1:
-        print("invalid sending address\n")
-        return 0
+def touch_tx(wallets):
+    wallet_name = input("Send from wallet... \n")
+    wallet = find_wallet(wallet_name, wallets)
+    if wallet == 1:
+        print("invalid wallet\n")
+        return 1
+    if len(wallet.addresses) == 0:
+        print("no addresses in wallet, aborting...")
+        return 1
+    print("Enter number for corresponding address:")
+    numbered_addresses = {}
+    for address in wallet.addresses:
+        numbered_addresses[wallet.addresses.index(address)] = address.private_key
+        print("\t" + f"{wallet.addresses.index(address)}" + ". " + f"{address.private_key}")
+    value = input()
+    sending_address = numbered_addresses[int(value)]
 
-    receiving_address = input("Receiving address... \n")
-    receiving_address_obj = find_address(receiving_address)
-    if receiving_address_obj == 1:
-        print("invalid receiving wallet\n")
-        return 0
+    wallet_name = input("Send to wallet... \n")
+    wallet = find_wallet(wallet_name, wallets)
+    if wallet == 1:
+        print("invalid wallet\n")
+        return 1
+    if len(wallet.addresses) == 0:
+        print("no addresses in wallet, aborting...")
+        return 1
+    print("Enter number for corresponding address:")
+    numbered_addresses = {}
+    for address in wallet.addresses:
+        numbered_addresses[wallet.addresses.index(address)] = address.private_key
+        print("\t" + f"{wallet.addresses.index(address)}" + ". " + f"{address.private_key}")
+    value = input()
+    receiving_address = numbered_addresses[int(value)]
 
-    unit_exchanged = input("Amount to send... \n")
-    if unit_exchanged < sending_address_obj.total_unspent:
-        print("invalid exchange amount\n")
-        return 0
+
 
 
 def describe_wallet(identifier, wallets):
@@ -93,24 +111,35 @@ def start_command_line(wallets, genesis_block, coinbase):
             print("\t\twallet, w")
 
         elif c[0] == "touch":
-            if c[1] in ("wallet", "w"):
+            if len(c) == 1:
+                print("invalid command")
+                pass
+            elif c[1] in ("wallet", "w"):
                 touch_wallet(wallets)
             elif c[1] in ("tx", "t"):
-                touch_tx()
+                touch_tx(wallets)
             elif c[1] in ("address", "a"):
                 touch_address(wallets)
+            else:
+                print("invalid command")
 
         elif c[0] == "describe":
-            if c[1] in ("wallet", "w"):
+            if len(c) == 1:
+                print("invalid command")
+                pass
+            elif c[1] in ("wallet", "w"):
                 if len(c) == 3:
                     describe_wallet(c[2], wallets)
                 else:
                     print("missing wallet identifier\n")
 
         elif c[0] == "get":
-            if c[1] in ("wallets", "w"):
+            if len(c) == 1:
+                print("invalid command")
+                pass
+            elif c[1] in ("wallets", "w"):
                 get_wallets(wallets)
-            if c[1] in ("addresses", "a"):
+            elif c[1] in ("addresses", "a"):
                 get_addresses(wallets)
 
         elif c[0] in ("exit", "quit", "q"):
