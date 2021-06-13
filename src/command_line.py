@@ -98,7 +98,10 @@ def start_command_line(wallets, genesis_block, coinbase):
     while True:
         c = input().split()
 
-        if c[0] in ("help", "h"):
+        if len(c) == 0:
+            continue
+
+        elif c[0] in ("help", "h"):
             print("Commands:")
             print("\ttouch")
             print("\t\twallet, w")
