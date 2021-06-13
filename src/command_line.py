@@ -33,8 +33,8 @@ def touch_address(wallets):
 
 
 def touch_tx(wallets):
-    wallet_name = input("Send from wallet... \n")
-    wallet = find_wallet(wallet_name, wallets)
+    send_from_wallet = input("Send from wallet... \n")
+    wallet = find_wallet(send_from_wallet, wallets)
     if wallet == 1:
         print("invalid wallet\n")
         return 1
@@ -49,8 +49,8 @@ def touch_tx(wallets):
     value = input()
     sending_address = numbered_addresses[int(value)]
 
-    wallet_name = input("Send to wallet... \n")
-    wallet = find_wallet(wallet_name, wallets)
+    send_to_wallet = input("Send to wallet... \n")
+    wallet = find_wallet(send_to_wallet, wallets)
     if wallet == 1:
         print("invalid wallet\n")
         return 1
@@ -65,6 +65,9 @@ def touch_tx(wallets):
     value = input()
     receiving_address = numbered_addresses[int(value)]
 
+    unit_exchanged = input("Amount to send... \n")
+
+    # TODO: create TX object
 
 
 

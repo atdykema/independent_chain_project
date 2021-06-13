@@ -1,4 +1,7 @@
 
+# TODO: get gas limit
+
+# TODO: get nonce
 
 class Tx:
     def __init__(self, gas_limit, sending_address, receiving_address, unit_exchanged):
@@ -9,3 +12,4 @@ class Tx:
         self.unit_exchanged = unit_exchanged
         # v,r,s stuff
 
+# TODO: add tx to block
