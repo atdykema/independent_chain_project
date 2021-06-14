@@ -1,6 +1,7 @@
 from src.wallet import find_wallet
 from src.wallet import Wallet
 from src.address import Address, find_address
+from src.tx import Tx
 import multiprocessing as mp
 
 
@@ -67,8 +68,10 @@ def touch_tx(wallets):
     unit_exchanged = input("Amount to send... \n")
 
     # TODO: create TX object
+    tx = Tx(sending_address, receiving_address, unit_exchanged)
 
     # TODO: add tx to block
+
 
 
 
