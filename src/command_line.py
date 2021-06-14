@@ -8,7 +8,6 @@ def touch_wallet(wallets):
     # TODO for testing: label_input = input("Label (leave blank for default): ")
     label_input = ''
     if label_input == '':
-        # TODO for testing: label = "default" + str(len(wallets))
         label = "d" + str(len(wallets))
     else:
         label = label_input
@@ -68,6 +67,8 @@ def touch_tx(wallets):
     unit_exchanged = input("Amount to send... \n")
 
     # TODO: create TX object
+
+    # TODO: add tx to block
 
 
 

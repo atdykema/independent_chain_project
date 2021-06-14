@@ -12,4 +12,3 @@ class Tx:
         self.unit_exchanged = unit_exchanged
         # v,r,s stuff
 
-# TODO: add tx to block
