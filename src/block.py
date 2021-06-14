@@ -2,10 +2,10 @@ import time
 from hashlib import sha256
 
 
-def find_block(identifier, most_recent_block):
-    block = most_recent_block
+def find_block(identifier, genesis_block):
+    block = genesis_block
     while block.block_hash != identifier:
-        block = block.prev_block
+        block = block.next_block
         if block is None:
             print("block not found")
             return 1
