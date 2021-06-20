@@ -12,6 +12,13 @@ def find_block(identifier, genesis_block):
     return block
 
 
+def find_most_recent_block(genesis_block):
+    block = genesis_block
+    while block.next_block is not None:
+        block = block.next_block
+    return block
+
+
 def get_hash_merkle_root(transactions):
     tx = transactions.copy()
     if len(tx) == 0:

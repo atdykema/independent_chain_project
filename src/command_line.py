@@ -1,7 +1,8 @@
 from src.wallet import find_wallet
 from src.wallet import Wallet
 from src.address import Address, find_address
-from src.tx import Tx
+from src.tx import Tx, add_tx_to_block
+from src.block import find_most_recent_block
 import multiprocessing as mp
 
 
@@ -32,7 +33,7 @@ def touch_address(wallets):
     print(find_address(address.private_key, wallet).private_key)
 
 
-def touch_tx(wallets):
+def touch_tx(wallets, genesis_block):
     send_from_wallet = input("Send from wallet... \n")
     wallet = find_wallet(send_from_wallet, wallets)
     if wallet == 1:
@@ -71,8 +72,7 @@ def touch_tx(wallets):
     tx = Tx(sending_address, receiving_address, unit_exchanged)
 
     # TODO: add tx to block
-
-
+    add_tx_to_block(tx, find_most_recent_block(genesis_block))
 
 
 def describe_wallet(identifier, wallets):
