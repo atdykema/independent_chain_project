@@ -62,7 +62,6 @@ class Block:
     def __init__(self, prev_block):
         self.timestamp = time.time()
         self.block_height = None
-        self.prev_hash = None
         self.block_hash = None
         # self.difficulty =
         self.next_block = None
