@@ -12,11 +12,25 @@ def find_block(identifier, genesis_block):
     return block
 
 
+def find_block_at_height(height, genesis_block):
+    block = genesis_block
+    while block.block_height != height:
+        block = block.next_block
+    return block
+
+
 def find_most_recent_block(genesis_block):
     block = genesis_block
     while block.next_block is not None:
         block = block.next_block
     return block
+
+
+def print_blockchain(genesis_block):
+    block = genesis_block
+    while block.next_block is not None:
+        print(block.block_height)
+        block = block.next_block
 
 
 def get_hash_merkle_root(transactions):
@@ -47,11 +61,15 @@ def get_hash_merkle_root(transactions):
 class Block:
     def __init__(self, prev_block):
         self.timestamp = time.time()
+        self.block_height = None
+        self.prev_hash = None
+        self.block_hash = None
         # self.difficulty =
+        self.next_block = None
         self.prev_block = prev_block
         if prev_block is not None:
             self.block_height = prev_block.block_height + 1
-            self.prev_hash = prev_block.hash
+            self.prev_hash = prev_block.block_hash
         else:
             self.prev_hash = 0x0000000000000000000000000000000000000000000000000000000000000000
             self.block_height = 0

@@ -2,7 +2,7 @@ from src.wallet import find_wallet
 from src.wallet import Wallet
 from src.address import Address, find_address
 from src.tx import Tx, add_tx_to_block
-from src.block import find_most_recent_block
+from src.block import find_most_recent_block, find_block_at_height
 import multiprocessing as mp
 
 
@@ -142,6 +142,11 @@ def start_command_line(wallets, genesis_block, coinbase):
                     describe_wallet(c[2], wallets)
                 else:
                     print("missing wallet identifier\n")
+            elif c[1] in ("block", "b"):
+                if len(c) == 3:
+                    find_block_at_height(c[2], genesis_block)
+                else:
+                    print("missing block height\n")
 
         elif c[0] == "get":
             if len(c) == 1:
