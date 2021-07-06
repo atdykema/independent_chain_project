@@ -3,6 +3,7 @@ from src.wallet import Wallet
 from src.address import Address, find_address
 from src.tx import Tx, add_tx_to_block
 from src.block import find_most_recent_block, find_block_at_height
+import sys
 import multiprocessing as mp
 
 

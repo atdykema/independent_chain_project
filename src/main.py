@@ -3,6 +3,8 @@ from src.block import Block
 from src.command_line import start_command_line
 from src.mining import start_mining
 from multiprocessing import Process
+import sys
+import os
 
 
 def main():
@@ -16,10 +18,11 @@ def main():
     coinbase = Coinbase()
 
     # initiate mining
-    Process(target=start_mining(genesis_block))
-
+    p1 = Process(target=start_mining(genesis_block))
+    p1.start()
     # start command line
-    start_command_line(wallets, genesis_block, coinbase)
+    p2 = Process(target=start_command_line(wallets, genesis_block, coinbase))
+    p2.start()
 
 
 if __name__ == "__main__":
