@@ -7,7 +7,7 @@ def mnemonic_phrase_generation():
     mnemonic_words = []
     total_word_digits = []
     current_word_digits = []
-    f = open('C:/Users/Andrew/PycharmProjects/independant_chain_project/resources/' + 'BIP39_wordlist.txt', "r")
+    f = open('./resources/' + 'BIP39_wordlist.txt', "r")
     word_list = f.readlines()
     f.close()
     for n in range(0, 256):
