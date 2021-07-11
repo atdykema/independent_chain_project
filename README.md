@@ -1,1 +1,1 @@
-Readme
+To run in container: docker run -it --rm -v "$(pwd)":/src chain_dev_container bash
