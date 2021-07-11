@@ -4,7 +4,6 @@ from src.block import Block
 from src.command_line import start_command_line
 from src.command_line import touch_wallet, touch_tx, touch_address, get_wallets, get_addresses
 from src.mining import start_mining
-import sys
 
 
 

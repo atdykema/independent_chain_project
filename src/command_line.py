@@ -4,8 +4,6 @@ from src.wallet import Wallet
 from src.address import Address, find_address
 from src.tx import Tx, add_tx_to_block
 from src.block import find_most_recent_block, find_block_at_height
-import sys
-import multiprocessing as mp
 
 
 def touch_wallet(wallets):
@@ -107,8 +105,10 @@ def start_command_line(wallets, genesis_block, coinbase):
     while True:
         c = input().split()
 
+
         if len(c) == 0:
             continue
+
 
         elif c[0] in ("help", "h"):
             print("Commands:")
@@ -121,8 +121,10 @@ def start_command_line(wallets, genesis_block, coinbase):
             print("\t\taddresses, a")
             print("\tdescribe")
             print("\t\twallet, w")
+            print("\t\tmrb")
 
-        elif c[0] == "touch":
+
+        elif c[0] in ("touch", "t"):
             if len(c) == 1:
                 print("invalid command")
                 pass
@@ -133,9 +135,10 @@ def start_command_line(wallets, genesis_block, coinbase):
             elif c[1] in ("address", "a"):
                 touch_address(wallets)
             else:
-                print("invalid command")
+                print("unknown command")
 
-        elif c[0] == "describe":
+
+        elif c[0] in ("describe", "d"):
             if len(c) == 1:
                 print("invalid command")
                 pass
@@ -149,8 +152,24 @@ def start_command_line(wallets, genesis_block, coinbase):
                     find_block_at_height(c[2], genesis_block)
                 else:
                     print("missing block height\n")
+            elif c[1] in ("mrb"):
+                mrb = find_most_recent_block(genesis_block)
+                print("Block number: " + str(mrb.block_height))
+                print("Block hash: " + str(mrb.block_hash))
+                if len(mrb.txs) == 0:
+                    print("No txs")
+                for tx in mrb.txs:
+                    print("---")
+                    print("Tx: " + str(mrb.txs.index(tx)))
+                    print("To: " + str(tx.sending_address))
+                    print("From: " + str(tx.receiving_address))
+                    print("Amount: " + str(tx.unit_exchanged))
+                    print("---")
+            else:
+                print("unknown command")
 
-        elif c[0] == "get":
+
+        elif c[0] in ("get", "g"):
             if len(c) == 1:
                 print("invalid command")
                 pass
@@ -158,9 +177,13 @@ def start_command_line(wallets, genesis_block, coinbase):
                 get_wallets(wallets)
             elif c[1] in ("addresses", "a"):
                 get_addresses(wallets)
+            else:
+                print("unknown command")
+
 
         elif c[0] in ("exit", "quit", "q"):
             break
+
 
         else:
             print("unknown command")
