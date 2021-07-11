@@ -4,6 +4,4 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-CMD ["testfile.py"]
-
-ENTRYPOINT ["python3]
+ENTRYPOINT ["python", "./testfile.py"]
