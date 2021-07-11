@@ -28,9 +28,11 @@ def main():
     get_wallets(wallets)
     print("--Addresses--")
     get_addresses(wallets)
+   
 
-    Process(target=start_mining(genesis_block))
-
+    mining = Process(target=start_mining, args=(genesis_block,))
+    mining.start()
+   
     start_command_line(wallets, genesis_block, coinbase)
 
 
