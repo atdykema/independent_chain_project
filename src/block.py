@@ -64,7 +64,7 @@ class Block:
         self.block_height = None
         self.prev_hash = None
         self.block_hash = None
-        # self.difficulty =
+        self.difficulty = 1
         self.next_block = None
         self.prev_block = prev_block
         if prev_block is not None:
@@ -73,11 +73,12 @@ class Block:
         else:
             self.prev_hash = 0x0000000000000000000000000000000000000000000000000000000000000000
             self.block_height = 0
-        # block merkle_hash, hash, and nonce are all determined after
-        # addition of tcs and the confirmation of the block
+        
+        # block merkle_hash, hash, and nonce are all determined after addition of txs and the confirmation of the block
 
         # self.merkle_hash = None
         # self.hash = None
         # self.nonce = None
+
         self.txs = []
 
