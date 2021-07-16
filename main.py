@@ -1,7 +1,7 @@
 from src.coinbase import Coinbase
 from src.block import Block
 from src.command_line import start_command_line
-from src.mining import start_mining
+from src.mining import start_mining, structure_new_block
 from multiprocessing import Process
 import sys
 import os
@@ -12,7 +12,7 @@ def main():
     wallets = []
 
     # initiate genesis block
-    genesis_block = Block(None)
+    genesis_block = structure_new_block(None)
 
     # initiate coinbase
     coinbase = Coinbase()
