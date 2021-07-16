@@ -64,6 +64,8 @@ def structure_new_block(prev_block):
     # Any other block than genesis block
     else:
 
+        block.prev_block = prev_block
+
         block.prev_hash = prev_block.hash
 
         block.block_height = prev_block.block_height + 1
@@ -82,10 +84,32 @@ def start_mining(genesis_block):
 
         prev_block = find_most_recent_block(genesis_block)
 
-        structure_new_block(prev_block)
+        curr_block = structure_new_block(prev_block)
 
         while block_mined != True:
 
+            hash_merkle_root = get_hash_merkle_root(curr_block)
+
             nonce = randbits(32)
+
+            block_components_to_be_hashed = [curr_block.timestamp, curr_block.block_height, curr_block.prev_hash, curr_block.difficulty,
+                curr_block.target, hash_merkle_root, nonce]
+
+            curr_block_hash = get_hash_merkle_root(block_components_to_be_hashed)
+
+            if curr_block_hash < curr_block.target:
+                
+                curr_block.hash_merkle_root = hash_merkle_root
+
+                curr_block.nonce = nonce
+
+                curr_block.hash = curr_block_hash
+
+                prev_block.next_block = curr_block
+
+                block_mined = True
+
+
+
 
 

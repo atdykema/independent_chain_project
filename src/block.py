@@ -37,7 +37,6 @@ class Block:
         self.timestamp = time.time()
         self.block_height = None
         self.prev_hash = None
-        self.block_hash = None
         self.difficulty = None
         self.target = None
         self.next_block = None
@@ -45,7 +44,7 @@ class Block:
         
         # block merkle_hash, hash, and nonce are all determined after addition of txs and the confirmation of the block
 
-        self.merkle_hash = None
+        self.hash_merkle_root = None
         self.hash = None
         self.nonce = None
 
