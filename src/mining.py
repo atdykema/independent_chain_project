@@ -1,4 +1,6 @@
-from src.block import Block, find_block, find_most_recent_block
+from src.block import Block, find_block, find_most_recent_block, 
+from secrets import randbits
+from hashlib import sha256
 
 
 def find_difficulty(prev_difficulty, prev_block_timestamp, prev_prev_block_timestamp):
@@ -19,6 +21,31 @@ def find_target(difficulty):
     else:
 
         return target
+
+
+def get_hash_merkle_root(transactions):
+    tx = transactions.copy()
+    if len(tx) == 0:
+        return []
+    temp = []
+    while len(tx) > 1:
+        concat = tx[len(tx)-1] + tx[len(tx)-2]
+        curr_hash = sha256(concat.encode('utf-8')).hexdigest()
+        temp.append(curr_hash)
+        del tx[len(tx) - 1]
+        del tx[len(tx) - 1]
+    if len(tx) == 1:
+        tx.append(tx[0])
+        concat = tx[0] + tx[1]
+        curr_hash = sha256(concat.encode('utf-8')).hexdigest()
+        temp.append(curr_hash)
+        del tx[len(tx) - 1]
+        del tx[len(tx) - 1]
+    if len(temp) == 1:
+        return temp[0]
+    else:
+        hash_ = get_hash_merkle_root(temp)
+        return hash_
 
 
 def structure_new_block(prev_block):
@@ -59,9 +86,6 @@ def start_mining(genesis_block):
 
         while block_mined != True:
 
-            pass
-
-        
-    
+            nonce = randbits(32)
 
 
