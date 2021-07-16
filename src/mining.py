@@ -29,11 +29,15 @@ def start_mining(genesis_block):
 
         prev_block = find_most_recent_block(genesis_block)
 
-        if prev_block.timestamp is not None and prev_block.prev_block.timestamp is not None:
+        if prev_block.block_height == 0:
 
+            curr_difficulty = 0
+
+        else:
+            
             curr_difficulty = find_difficulty(prev_block.timestamp, prev_block.prev_block.timestamp)
 
-            curr_target = find_target(curr_difficulty)
+        curr_target = find_target(curr_difficulty)
 
         while block_mined != True:
 
