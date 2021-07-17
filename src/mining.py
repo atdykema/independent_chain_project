@@ -1,4 +1,4 @@
-from src.block import Block, find_block, find_most_recent_block, 
+from src.block import Block, find_block, find_most_recent_block
 from secrets import randbits
 from hashlib import sha256
 
@@ -23,13 +23,17 @@ def find_target(difficulty):
         return target
 
 
+def hash_block(contents):
+    pass
+
+
 def get_hash_merkle_root(transactions):
 
     tx = transactions.copy()
 
     if len(tx) == 0:
 
-        return []
+        return 0
 
     temp = []
 
@@ -66,7 +70,7 @@ def get_hash_merkle_root(transactions):
     else:
 
         hash_ = get_hash_merkle_root(temp)
-        
+
         return hash_
 
 
@@ -75,7 +79,7 @@ def structure_new_block(prev_block):
     block = Block(prev_block)
 
     # The genesis block
-    if prev_block is None:
+    if prev_block is None or prev_block.prev_block is None:
 
         block.prev_hash = 0x0000000000000000000000000000000000000000000000000000000000000000
 
@@ -97,6 +101,8 @@ def structure_new_block(prev_block):
     
     block.target = find_target(block.difficulty)
 
+    return block
+
 
 def start_mining(genesis_block):
 
@@ -110,14 +116,14 @@ def start_mining(genesis_block):
 
         while block_mined != True:
 
-            hash_merkle_root = get_hash_merkle_root(curr_block)
+            hash_merkle_root = get_hash_merkle_root(curr_block.txs)
 
             nonce = randbits(32)
 
             block_components_to_be_hashed = [curr_block.timestamp, curr_block.block_height, curr_block.prev_hash, curr_block.difficulty,
                 curr_block.target, hash_merkle_root, nonce]
 
-            curr_block_hash = get_hash_merkle_root(block_components_to_be_hashed)
+            curr_block_hash = hash_block(block_components_to_be_hashed)
 
             if curr_block_hash < curr_block.target:
                 
