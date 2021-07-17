@@ -5,15 +5,15 @@ from hashlib import sha256
 
 def find_difficulty(prev_difficulty, prev_block_timestamp, prev_prev_block_timestamp):
 
-    TARGET_MINE_TIME = 20
+    TARGET_MINE_TIME = 1
 
-    return prev_difficulty * (1 + ((prev_block_timestamp - prev_prev_block_timestamp) / TARGET_MINE_TIME))
+    return prev_difficulty * (1 + (((prev_block_timestamp - prev_prev_block_timestamp) *10) / TARGET_MINE_TIME))
 
 
 def find_target(difficulty):
-    target = .01 / difficulty
-    if target > .01:
-        return .01
+    target = .001 / difficulty
+    if target > .001:
+        return .001
     else:
         return target
 
@@ -69,10 +69,14 @@ def structure_new_block(prev_block):
     block = Block(prev_block)
 
     # The genesis block
-    if prev_block is None or prev_block.prev_block is None:
+    if prev_block is None:
         block.prev_hash = 0x0000000000000000000000000000000000000000000000000000000000000000
         block.block_height = 0
         block.difficulty = 1
+    elif prev_block.prev_block is None:
+        block.prev_hash = prev_block.hash
+        block.difficulty = 1
+        block.block_height = 1
 
     # Any other block than genesis block
     else:
@@ -89,6 +93,7 @@ def structure_new_block(prev_block):
 
 def start_mining(genesis_block):
     TWO_POWER_256 = 115792089237316195423570985008687907853269984665640564039457584007913129639936
+    test_dict = dict()
     while True:
         block_mined = False
         prev_block = find_most_recent_block(genesis_block)
@@ -107,8 +112,8 @@ def start_mining(genesis_block):
 
             output_number = int(curr_block_hash, 16)/TWO_POWER_256
 
-            print(f'{curr_block.target}')
-            print(f'{output_number}: {output_number < curr_block.target}')
+            #print(f'{curr_block.target}')
+            #print(f'{output_number}: {output_number < curr_block.target}')
 
             if output_number < curr_block.target:     
                 curr_block.hash_merkle_root = hash_merkle_root
@@ -116,7 +121,7 @@ def start_mining(genesis_block):
                 curr_block.hash = curr_block_hash
                 prev_block.next_block = curr_block
                 block_mined = True
-                print_blockchain(genesis_block)
+                print(f"{curr_block.block_height}: {curr_block.target}, {curr_block.difficulty}")
 
 
 
