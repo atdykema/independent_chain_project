@@ -5,15 +5,26 @@ from hashlib import sha256
 
 def find_difficulty(prev_difficulty, prev_block_timestamp, prev_prev_block_timestamp):
 
-    TARGET_MINE_TIME = 1
+    TARGET_MINE_TIME = 10
+    
 
-    return prev_difficulty * (1 + (((prev_block_timestamp - prev_prev_block_timestamp) *10) / TARGET_MINE_TIME))
+    percent_difference = (1 / ( (prev_block_timestamp - prev_prev_block_timestamp)/ TARGET_MINE_TIME))
+
+    #print(f'Percent change: {percent_difference}')
+    #print(f'Seconds taken: {prev_block_timestamp - prev_prev_block_timestamp}')
+    
+    if percent_difference > 1.25:
+        return prev_difficulty * 1.25
+    elif percent_difference < .75:
+        return prev_difficulty * .75    
+    else:
+        return prev_difficulty * percent_difference
 
 
 def find_target(difficulty):
-    target = .001 / difficulty
-    if target > .001:
-        return .001
+    target = .00001 / difficulty
+    if target > .00001:
+        return .00001
     else:
         return target
 
