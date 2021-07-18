@@ -29,6 +29,10 @@ def print_blockchain(genesis_block):
     block = genesis_block
     while block.next_block is not None:
         print(block.block_height)
+        for tx in block.txs:
+            print(tx.sending_address)
+            print(tx.receiving_addres)
+            print(tx.unit_exchanged)
         block = block.next_block
 
 
@@ -41,8 +45,6 @@ class Block:
         self.target = None
         self.next_block = None
         self.prev_block = prev_block
-        
-        # block merkle_hash, hash, and nonce are all determined after addition of txs and the confirmation of the block
 
         self.hash_merkle_root = None
         self.hash = None

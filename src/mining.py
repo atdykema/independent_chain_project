@@ -5,14 +5,14 @@ from hashlib import sha256
 
 def find_difficulty(prev_difficulty, prev_block_timestamp, prev_prev_block_timestamp):
 
-    TARGET_MINE_TIME = 10
+    TARGET_MINE_TIME = 3
     
 
     percent_difference = (1 / ( (prev_block_timestamp - prev_prev_block_timestamp)/ TARGET_MINE_TIME))
 
     #print(f'Percent change: {percent_difference}')
     #print(f'Seconds taken: {prev_block_timestamp - prev_prev_block_timestamp}')
-    
+
     if percent_difference > 1.25:
         return prev_difficulty * 1.25
     elif percent_difference < .75:
@@ -104,7 +104,6 @@ def structure_new_block(prev_block):
 
 def start_mining(genesis_block):
     TWO_POWER_256 = 115792089237316195423570985008687907853269984665640564039457584007913129639936
-    test_dict = dict()
     while True:
         block_mined = False
         prev_block = find_most_recent_block(genesis_block)
@@ -131,8 +130,10 @@ def start_mining(genesis_block):
                 curr_block.nonce = nonce
                 curr_block.hash = curr_block_hash
                 prev_block.next_block = curr_block
-                block_mined = True
-                print(f"{curr_block.block_height}: {curr_block.target}, {curr_block.difficulty}")
+                block_mined = True  
+                
+                #print(f"{curr_block.block_height}: {curr_block.target}, {curr_block.difficulty}")
+                #print (f"Prev_block: {curr_block.prev_block} {curr_block.prev_block.hash}, hash: {curr_block.hash}")
 
 
 

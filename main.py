@@ -21,7 +21,7 @@ def main():
     mining = Process(target=start_mining, args=(genesis_block,))
     mining.start()
    
-    #start_command_line(wallets, genesis_block, coinbase)
+    start_command_line(wallets, genesis_block, coinbase)
 
 
 if __name__ == "__main__":

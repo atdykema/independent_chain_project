@@ -131,7 +131,7 @@ def start_command_line(wallets, genesis_block, coinbase):
             elif c[1] in ("wallet", "w"):
                 touch_wallet(wallets)
             elif c[1] in ("tx", "t"):
-                touch_tx(wallets)
+                touch_tx(wallets, genesis_block)
             elif c[1] in ("address", "a"):
                 touch_address(wallets)
             else:
@@ -155,7 +155,7 @@ def start_command_line(wallets, genesis_block, coinbase):
             elif c[1] in ("mrb"):
                 mrb = find_most_recent_block(genesis_block)
                 print("Block number: " + str(mrb.block_height))
-                print("Block hash: " + str(mrb.block_hash))
+                print("Block hash: " + str(mrb.hash))
                 if len(mrb.txs) == 0:
                     print("No txs")
                 for tx in mrb.txs:
