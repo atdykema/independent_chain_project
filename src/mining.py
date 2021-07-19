@@ -1,3 +1,5 @@
+from multiprocessing.queues import Queue
+import queue
 from src.block import Block, find_block, find_most_recent_block, print_blockchain
 from secrets import randbits
 from hashlib import sha256
@@ -6,7 +8,6 @@ from hashlib import sha256
 def find_difficulty(prev_difficulty, prev_block_timestamp, prev_prev_block_timestamp):
 
     TARGET_MINE_TIME = 3
-    
 
     percent_difference = (1 / ( (prev_block_timestamp - prev_prev_block_timestamp)/ TARGET_MINE_TIME))
 
@@ -102,7 +103,7 @@ def structure_new_block(prev_block):
     return block
 
 
-def start_mining(genesis_block):
+def start_mining(genesis_block, to_cl_queue, to_mine_queue):
     TWO_POWER_256 = 115792089237316195423570985008687907853269984665640564039457584007913129639936
     while True:
         block_mined = False
@@ -110,6 +111,9 @@ def start_mining(genesis_block):
         curr_block = structure_new_block(prev_block)
 
         while block_mined != True:
+
+            while to_mine_queue.empty() is False:
+                curr_block.txs.append(to_mine_queue.get())
 
             hash_merkle_root = get_hash_merkle_root(curr_block.txs)
 
@@ -130,7 +134,9 @@ def start_mining(genesis_block):
                 curr_block.nonce = nonce
                 curr_block.hash = curr_block_hash
                 prev_block.next_block = curr_block
-                block_mined = True  
+                block_mined = True
+
+                to_cl_queue.put(curr_block)
                 
                 #print(f"{curr_block.block_height}: {curr_block.target}, {curr_block.difficulty}")
                 #print (f"Prev_block: {curr_block.prev_block} {curr_block.prev_block.hash}, hash: {curr_block.hash}")

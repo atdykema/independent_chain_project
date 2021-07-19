@@ -11,7 +11,3 @@ class Tx:
         self.receiving_address = receiving_address
         self.unit_exchanged = unit_exchanged
         # v,r,s stuff
-
-
-def add_tx_to_block(tx, block):
-    block.txs.append(tx)

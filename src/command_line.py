@@ -2,8 +2,15 @@ from src.coinbase import Coinbase
 from src.wallet import find_wallet
 from src.wallet import Wallet
 from src.address import Address, find_address
-from src.tx import Tx, add_tx_to_block
+from src.tx import Tx
 from src.block import find_most_recent_block, find_block_at_height
+
+
+def update_blockchain(genesis_block, to_cl_queue):
+    mrb = find_most_recent_block(genesis_block)
+    while to_cl_queue.empty() is False:
+        mrb.next_block = to_cl_queue.get()
+        mrb = mrb.next_block
 
 
 def touch_wallet(wallets):
@@ -33,7 +40,7 @@ def touch_address(wallets):
     print(find_address(address.private_key, wallet).private_key)
 
 
-def touch_tx(wallets, genesis_block):
+def touch_tx(wallets, to_mine_queue):
     send_from_wallet = input("Send from wallet... \n")
     wallet = find_wallet(send_from_wallet, wallets)
     if wallet == 1:
@@ -69,10 +76,10 @@ def touch_tx(wallets, genesis_block):
     unit_exchanged = input("Amount to send... \n")
 
     # TODO: create TX object
-    tx = Tx(sending_address, receiving_address, unit_exchanged)
+    to_mine_queue.put(Tx(sending_address, receiving_address, unit_exchanged))
 
     # TODO: add tx to block
-    add_tx_to_block(tx, find_most_recent_block(genesis_block))
+    
 
 
 def describe_wallet(identifier, wallets):
@@ -101,10 +108,12 @@ def get_addresses(wallets):
             print("\t" + address.private_key)
 
 
-def start_command_line(wallets, genesis_block, coinbase):
+def start_command_line(wallets, genesis_block, coinbase, to_cl_queue, to_mine_queue):
     while True:
+
         c = input().split()
 
+        update_blockchain(genesis_block, to_cl_queue)
 
         if len(c) == 0:
             continue
@@ -131,7 +140,7 @@ def start_command_line(wallets, genesis_block, coinbase):
             elif c[1] in ("wallet", "w"):
                 touch_wallet(wallets)
             elif c[1] in ("tx", "t"):
-                touch_tx(wallets, genesis_block)
+                touch_tx(wallets, genesis_block, to_mine_queue)
             elif c[1] in ("address", "a"):
                 touch_address(wallets)
             else:
