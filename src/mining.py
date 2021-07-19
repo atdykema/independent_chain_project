@@ -1,6 +1,6 @@
 from multiprocessing.queues import Queue
 import queue
-from src.block import Block, find_block, find_most_recent_block, print_blockchain
+from src.block import Block, find_block, find_most_recent_block
 from secrets import randbits
 from hashlib import sha256
 
@@ -50,7 +50,7 @@ def get_hash_merkle_root(transactions):
     tx_hashes = []
 
     for trans in tx:
-        str(trans.sending_address + trans.receiving_address + trans.unit_exchanged).encode().append(tx_hashes)
+        tx_hashes.append(sha256((trans.sending_address + trans.receiving_address + trans.unit_exchanged).encode('utf-8')).hexdigest())
 
     temp = []
 
@@ -113,7 +113,7 @@ def start_mining(genesis_block, to_cl_queue, to_mine_queue):
         while block_mined != True:
 
             while to_mine_queue.empty() is False:
-                curr_block.txs.append(to_mine_queue.get())
+                print(curr_block.txs.append(to_mine_queue.get()))
 
             hash_merkle_root = get_hash_merkle_root(curr_block.txs)
 

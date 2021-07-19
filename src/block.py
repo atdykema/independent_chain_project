@@ -25,17 +25,6 @@ def find_most_recent_block(genesis_block):
     return block
 
 
-def print_blockchain(genesis_block):
-    block = genesis_block
-    while block.next_block is not None:
-        print(block.block_height)
-        for tx in block.txs:
-            print(tx.sending_address)
-            print(tx.receiving_addres)
-            print(tx.unit_exchanged)
-        block = block.next_block
-
-
 class Block:
     def __init__(self, prev_block):
         self.timestamp = time.time()

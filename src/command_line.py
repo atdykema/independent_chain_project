@@ -27,9 +27,9 @@ def touch_wallet(wallets):
     wallets.append(Wallet(label))
 
 
-def touch_address(wallets):
-    # TODO for testing: identifier = input("wallet to add to...\n")
-    identifier = "d0"
+def touch_address(wallets, identifier=None):
+    if identifier is None:
+        identifier = input("wallet to add to...\n")
     wallet = find_wallet(identifier, wallets)
     if wallet == 1:
         print("invalid wallet\n")
@@ -40,46 +40,68 @@ def touch_address(wallets):
     print(find_address(address.private_key, wallet).private_key)
 
 
-def touch_tx(wallets, to_mine_queue):
-    send_from_wallet = input("Send from wallet... \n")
+def touch_tx(wallets, to_mine_queue, send_from_wallet=None, from_address_value=None, send_to_wallet=None, to_address_value=None, unit_exchanged=None):
+    
+    if send_from_wallet is None:
+        send_from_wallet = input("Send from wallet... \n")
+
     wallet = find_wallet(send_from_wallet, wallets)
     if wallet == 1:
-        print("invalid wallet\n")
+        print("invalid sending wallet\n")
         return 1
     if len(wallet.addresses) == 0:
-        print("no addresses in wallet, aborting...")
+        print("no addresses in sending wallet, aborting...")
         return 1
-    print("Enter number for corresponding address:")
+    
     numbered_addresses = {}
     for address in wallet.addresses:
         numbered_addresses[wallet.addresses.index(address)] = address.private_key
-        print("\t" + f"{wallet.addresses.index(address)}" + ". " + f"{address.private_key}")
-    value = input()
-    sending_address = numbered_addresses[int(value)]
 
-    send_to_wallet = input("Send to wallet... \n")
+    if from_address_value is None:
+        print("Enter number for corresponding address:")
+        print("\t" + f"{wallet.addresses.index(address)}" + ". " + f"{address.private_key}")
+        from_address_value = input()
+    else:
+        if len(numbered_addresses) - 1 < int(from_address_value):
+            print("no sending address found at this value")
+            return 1
+
+    sending_address = numbered_addresses[int(from_address_value)]
+
+    if send_to_wallet is None:
+        send_to_wallet = input("Send to wallet... \n")
+
     wallet = find_wallet(send_to_wallet, wallets)
     if wallet == 1:
-        print("invalid wallet\n")
+        print("invalid receiving wallet\n")
         return 1
     if len(wallet.addresses) == 0:
-        print("no addresses in wallet, aborting...")
+        print("no addresses in receiving wallet, aborting...")
         return 1
-    print("Enter number for corresponding address:")
+    
     numbered_addresses = {}
     for address in wallet.addresses:
         numbered_addresses[wallet.addresses.index(address)] = address.private_key
+
+    if to_address_value is None:
+        print("Enter number for corresponding address:")
         print("\t" + f"{wallet.addresses.index(address)}" + ". " + f"{address.private_key}")
-    value = input()
-    receiving_address = numbered_addresses[int(value)]
+        to_address_value = input()
+    else:
+        if len(numbered_addresses) - 1 < int(to_address_value):
+            print("no receiving address found at this value")
+            return 1
+    
+    receiving_address = numbered_addresses[int(to_address_value)]
 
-    unit_exchanged = input("Amount to send... \n")
+    if unit_exchanged is None:
+        unit_exchanged = input("Amount to send... \n")
 
-    # TODO: create TX object
+    print(f"Sending {unit_exchanged} units from {sending_address} to {receiving_address}")
+
     to_mine_queue.put(Tx(sending_address, receiving_address, unit_exchanged))
 
-    # TODO: add tx to block
-    
+    #TODO: check amount at address
 
 
 def describe_wallet(identifier, wallets):
@@ -91,6 +113,17 @@ def describe_wallet(identifier, wallets):
     print(wallet.timestamp)
     for address in wallet.addresses:
         print(address.private_key)
+
+
+def describe_blockchain(genesis_block):
+    block = genesis_block
+    while block.next_block is not None:
+        print(block.block_height)
+        for tx in block.txs:
+            print(tx.sending_address)
+            print(tx.receiving_address)
+            print(tx.unit_exchanged)
+        block = block.next_block
 
 
 def get_wallets(wallets):
@@ -140,7 +173,18 @@ def start_command_line(wallets, genesis_block, coinbase, to_cl_queue, to_mine_qu
             elif c[1] in ("wallet", "w"):
                 touch_wallet(wallets)
             elif c[1] in ("tx", "t"):
-                touch_tx(wallets, genesis_block, to_mine_queue)
+                if len(c) == 3:
+                    touch_tx(wallets, to_mine_queue, c[2])
+                elif len(c) == 4:
+                    touch_tx(wallets, to_mine_queue, c[2], c[3])
+                elif len(c) == 5:
+                    touch_tx(wallets, to_mine_queue, c[2], c[3], c[4])
+                elif len(c) == 6:
+                    touch_tx(wallets, to_mine_queue, c[2], c[3], c[4], c[5])
+                elif len(c) == 7:
+                    touch_tx(wallets, to_mine_queue, c[2], c[3], c[4], c[5], c[6])
+                else:
+                    touch_tx(wallets, to_mine_queue)
             elif c[1] in ("address", "a"):
                 touch_address(wallets)
             else:
@@ -174,6 +218,8 @@ def start_command_line(wallets, genesis_block, coinbase, to_cl_queue, to_mine_qu
                     print("From: " + str(tx.receiving_address))
                     print("Amount: " + str(tx.unit_exchanged))
                     print("---")
+            elif c[1] in ("blockchain", "bc"):
+                describe_blockchain(genesis_block)
             else:
                 print("unknown command")
 
