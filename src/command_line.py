@@ -13,17 +13,13 @@ def update_blockchain(genesis_block, to_cl_queue):
         mrb = mrb.next_block
 
 
-def touch_wallet(wallets):
-    # TODO for testing: label_input = input("Label (leave blank for default): ")
-    label_input = ''
-    if label_input == '':
-        label = "d" + str(len(wallets))
-    else:
-        label = label_input
+def touch_wallet(wallets, label=None):
+    if label is None:
+        label = input("Label (leave blank for default): ")
     for wallet in wallets:
         if label in wallet.label:
             print("identical wallet label error\n")
-            return 0
+            return 1
     wallets.append(Wallet(label))
 
 

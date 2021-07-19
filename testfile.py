@@ -12,9 +12,9 @@ def main():
     wallets = []
 
     # start command line
-    touch_wallet(wallets)
-    touch_wallet(wallets)
-    touch_wallet(wallets)
+    touch_wallet(wallets, 'd0')
+    touch_wallet(wallets, 'd1')
+    touch_wallet(wallets, 'test')
     touch_address(wallets, 'd1')
     touch_address(wallets, 'd0')
     print("--Wallets--")
