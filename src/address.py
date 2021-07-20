@@ -56,12 +56,6 @@ def master_key_generation(mnemonic_phrase, additional_master_key_password):
     #get masterkey, get private key and chain code, etc
     #add keys to self.public_addresses
 
-def find_address(identifier, wallet):
-    for address in wallet.addresses:
-        if address.private_key == identifier:
-            return address
-    return 1
-
 
 class Address:
     def __init__(self):

@@ -1,8 +1,7 @@
-from src.wallet import find_wallet
 from src.wallet import Wallet
-from src.address import Address, find_address
+from src.address import Address
+from tools.tools import find_address, find_most_recent_block, find_wallet
 from src.tx import Tx
-from src.block import find_most_recent_block
 
 
 

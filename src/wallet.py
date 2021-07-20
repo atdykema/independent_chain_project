@@ -1,13 +1,4 @@
-import time, random, tools.tools, os, hashlib, binascii
-from pbkdf2 import PBKDF2
-import src.tx as tx
-
-
-def find_wallet(identifier, wallets):
-    for wallet in wallets:
-        if wallet.label == identifier:
-            return wallet
-    return 1
+import time
 
 
 class Wallet:

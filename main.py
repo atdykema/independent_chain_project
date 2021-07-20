@@ -1,10 +1,10 @@
 from multiprocessing.queues import Queue
 from src.coinbase import Coinbase
-from src.block import Block, find_most_recent_block, find_block_at_height
+from tools.tools import find_most_recent_block, find_block_at_height
 from src.command_line import update_blockchain, touch_address, touch_wallet, touch_tx, describe_blockchain, describe_wallet, get_addresses, get_wallets
 from src.mining import start_mining, structure_new_block
 from multiprocessing import Process, Queue
-from src.testfile import test_attributes
+from tools.testfile import test_attributes
 import sys
 import os
 
