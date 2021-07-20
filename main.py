@@ -1,4 +1,3 @@
-import multiprocessing
 from multiprocessing.queues import Queue
 from src.coinbase import Coinbase
 from src.block import Block
