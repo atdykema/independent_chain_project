@@ -6,6 +6,7 @@ from src.tx import Tx
 from src.block import find_most_recent_block, find_block_at_height
 
 
+
 def update_blockchain(genesis_block, to_cl_queue):
     mrb = find_most_recent_block(genesis_block)
     while to_cl_queue.empty() is False:
@@ -93,8 +94,14 @@ def touch_tx(wallets, to_mine_queue, send_from_wallet=None, from_address_value=N
     if unit_exchanged is None:
         unit_exchanged = input("Amount to send... \n")
 
-    print(f"Sending {unit_exchanged} units from {sending_address} to {receiving_address}")
+    try:
+        unit_exchanged = int(unit_exchanged)
+    except ValueError:
+        print("unit is not an int")
+        return 1
 
+    print(f"Sending {unit_exchanged} units from {sending_address} to {receiving_address}")
+    
     to_mine_queue.put(Tx(sending_address, receiving_address, unit_exchanged))
 
     #TODO: check amount at address
@@ -167,9 +174,12 @@ def start_command_line(wallets, genesis_block, coinbase, to_cl_queue, to_mine_qu
                 print("invalid command")
                 pass
             elif c[1] in ("wallet", "w"):
-                touch_wallet(wallets)
-            elif c[1] in ("tx", "t"):
                 if len(c) == 3:
+                    touch_wallet(wallets, c[2])
+            elif c[1] in ("tx", "t"):
+                if len(c) < 3:
+                    touch_tx(wallets, to_mine_queue)
+                elif len(c) == 3:
                     touch_tx(wallets, to_mine_queue, c[2])
                 elif len(c) == 4:
                     touch_tx(wallets, to_mine_queue, c[2], c[3])
@@ -182,7 +192,8 @@ def start_command_line(wallets, genesis_block, coinbase, to_cl_queue, to_mine_qu
                 else:
                     touch_tx(wallets, to_mine_queue)
             elif c[1] in ("address", "a"):
-                touch_address(wallets)
+                if len(c) == 3:
+                    touch_address(wallets, c[2])
             else:
                 print("unknown command")
 

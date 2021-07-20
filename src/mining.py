@@ -50,7 +50,7 @@ def get_hash_merkle_root(transactions):
     tx_hashes = []
 
     for trans in tx:
-        tx_hashes.append(sha256((trans.sending_address + trans.receiving_address + trans.unit_exchanged).encode('utf-8')).hexdigest())
+        tx_hashes.append(sha256((trans.sending_address + trans.receiving_address + str(trans.unit_exchanged)).encode('utf-8')).hexdigest())
 
     temp = []
 
@@ -113,7 +113,7 @@ def start_mining(genesis_block, to_cl_queue, to_mine_queue):
         while block_mined != True:
 
             while to_mine_queue.empty() is False:
-                print(curr_block.txs.append(to_mine_queue.get()))
+                curr_block.txs.append(to_mine_queue.get())
 
             hash_merkle_root = get_hash_merkle_root(curr_block.txs)
 
