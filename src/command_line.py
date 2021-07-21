@@ -1,8 +1,7 @@
 from src.wallet import Wallet
 from src.address import Address
-from tools.tools import find_address, find_most_recent_block, find_wallet
+from tools.tools import find_address, find_most_recent_block, find_wallet, find_address_without_wallet_specified
 from src.tx import Tx
-
 
 
 def update_blockchain(genesis_block, to_cl_queue):
@@ -61,7 +60,7 @@ def touch_tx(wallets, to_mine_queue, send_from_wallet=None, from_address_value=N
             print("no sending address found at this value")
             return 1
 
-    sending_address = numbered_addresses[int(from_address_value)]
+    sending_address = find_address_without_wallet_specified(numbered_addresses[int(to_address_value)], wallets)
 
     if send_to_wallet is None:
         send_to_wallet = input("Send to wallet... \n")
@@ -87,22 +86,24 @@ def touch_tx(wallets, to_mine_queue, send_from_wallet=None, from_address_value=N
             print("no receiving address found at this value")
             return 1
     
-    receiving_address = numbered_addresses[int(to_address_value)]
+    receiving_address = find_address_without_wallet_specified(numbered_addresses[int(to_address_value)], wallets)
 
     if unit_exchanged is None:
         unit_exchanged = input("Amount to send... \n")
 
     try:
-        unit_exchanged = int(unit_exchanged)
+        unit_exchanged = float(unit_exchanged)
     except ValueError:
         print("unit is not an int")
+        return 1
+
+    if sending_address.total_unspent < unit_exchanged:
+        print("Insufficient funds in sending wallet")
         return 1
 
     print(f"Sending {unit_exchanged} units from {sending_address} to {receiving_address}")
     
     to_mine_queue.put(Tx(sending_address, receiving_address, unit_exchanged))
-
-    #TODO: check amount at address
 
 
 def describe_wallet(identifier, wallets):
@@ -114,6 +115,7 @@ def describe_wallet(identifier, wallets):
     print(wallet.timestamp)
     for address in wallet.addresses:
         print(address.private_key)
+        print(address.total_unspent)
 
 
 def describe_blockchain(genesis_block):

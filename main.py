@@ -1,5 +1,4 @@
 from multiprocessing.queues import Queue
-from src.coinbase import Coinbase
 from tools.tools import find_most_recent_block, find_block_at_height
 from src.command_line import update_blockchain, touch_address, touch_wallet, touch_tx, describe_blockchain, describe_wallet, get_addresses, get_wallets
 from src.mining import start_mining, structure_new_block
@@ -12,6 +11,8 @@ import os
 def main():
     # initialize wallet list
     wallets = []
+    touch_wallet(wallets, 'default')
+    touch_address(wallets, 'default')
 
     # test additions
     test_attributes(wallets)
@@ -19,20 +20,22 @@ def main():
     # initiate genesis block
     genesis_block = structure_new_block(None)
 
-    # initiate coinbase
-    coinbase = Coinbase()
-
     # initiate mining
-    to_cl_queue = Queue()
-    to_mine_queue = Queue()
-    mining = Process(target=start_mining, args=(genesis_block, to_cl_queue, to_mine_queue,))
+    to_cl_queue_blocks = Queue()
+    to_mine_queue_tx = Queue()
+    to_cl_queue_wallets = Queue()
+    to_mine_queue_wallets = Queue()
+    mining = Process(target=start_mining, args=(genesis_block, to_cl_queue_blocks, to_mine_queue_tx, to_cl_queue_wallets, to_mine_queue_wallets, wallets))
     mining.start()
    
     while True:
 
         c = input().split()
 
-        update_blockchain(genesis_block, to_cl_queue)
+        update_blockchain(genesis_block, to_cl_queue_blocks)
+
+        if to_cl_queue_wallets.empty() == False:
+            wallets = to_cl_queue_wallets.get()
 
         if len(c) == 0:
             continue
@@ -61,19 +64,19 @@ def main():
                     touch_wallet(wallets, c[2])
             elif c[1] in ("tx", "t"):
                 if len(c) < 3:
-                    touch_tx(wallets, to_mine_queue)
+                    touch_tx(wallets, to_mine_queue_tx)
                 elif len(c) == 3:
-                    touch_tx(wallets, to_mine_queue, c[2])
+                    touch_tx(wallets, to_mine_queue_tx, c[2])
                 elif len(c) == 4:
-                    touch_tx(wallets, to_mine_queue, c[2], c[3])
+                    touch_tx(wallets, to_mine_queue_tx, c[2], c[3])
                 elif len(c) == 5:
-                    touch_tx(wallets, to_mine_queue, c[2], c[3], c[4])
+                    touch_tx(wallets, to_mine_queue_tx, c[2], c[3], c[4])
                 elif len(c) == 6:
-                    touch_tx(wallets, to_mine_queue, c[2], c[3], c[4], c[5])
+                    touch_tx(wallets, to_mine_queue_tx, c[2], c[3], c[4], c[5])
                 elif len(c) == 7:
-                    touch_tx(wallets, to_mine_queue, c[2], c[3], c[4], c[5], c[6])
+                    touch_tx(wallets, to_mine_queue_tx, c[2], c[3], c[4], c[5], c[6])
                 else:
-                    touch_tx(wallets, to_mine_queue)
+                    touch_tx(wallets, to_mine_queue_tx)
             elif c[1] in ("address", "a"):
                 if len(c) == 3:
                     touch_address(wallets, c[2])
@@ -132,6 +135,11 @@ def main():
 
         else:
             print("unknown command")
+
+        while to_mine_queue_wallets.empty() == False:
+            to_mine_queue_wallets.get()
+        
+        to_mine_queue_wallets.put(wallets)
 
 
 if __name__ == "__main__":

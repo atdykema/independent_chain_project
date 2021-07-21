@@ -2,9 +2,16 @@ from hashlib import sha256
 from src.block import Block
 
 
+def get_coinbase_block_reward(most_recent_block):
+    REWARD_DROPOFF_BLOCK = 10
+    ORIG_REWARD = 50
+
+    return ORIG_REWARD * (.5 ** int(most_recent_block.block_height / REWARD_DROPOFF_BLOCK))
+
+
 def find_difficulty(prev_difficulty, prev_block_timestamp, prev_prev_block_timestamp):
 
-    TARGET_MINE_TIME = 3
+    TARGET_MINE_TIME = 1
 
     percent_difference = (1 / ( (prev_block_timestamp - prev_prev_block_timestamp)/ TARGET_MINE_TIME))
 
@@ -47,7 +54,7 @@ def get_hash_merkle_root(transactions):
     tx_hashes = []
 
     for trans in tx:
-        tx_hashes.append(sha256((trans.sending_address + trans.receiving_address + str(trans.unit_exchanged)).encode('utf-8')).hexdigest())
+        tx_hashes.append(sha256((trans.sending_address.private_key + trans.receiving_address.private_key + str(trans.unit_exchanged)).encode('utf-8')).hexdigest())
 
     temp = []
 
@@ -135,6 +142,14 @@ def find_address(identifier, wallet):
     for address in wallet.addresses:
         if address.private_key == identifier:
             return address
+    return 1
+
+
+def find_address_without_wallet_specified(identifier, wallets):
+    for wallet in wallets:
+        for address in wallet.addresses:
+            if address.private_key == identifier:
+                return address
     return 1
 
 
